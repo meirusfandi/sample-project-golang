@@ -1,72 +1,58 @@
 package handler
 
 import (
-	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
 	"path"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
-type User struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-	Name     string `json:"name"`
-}
-
-func ConnectDB() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:8080)/golang")
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
-
 func IndexUserPage(w http.ResponseWriter, r *http.Request) {
+
+	// //get data from database
+	// db, err := ConnectDB()
+
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
+	// defer db.Close()
+
+	// rows, err := db.Query("select * from pengguna")
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
+	// defer rows.Close()
+
+	// var result []User
+
+	// for rows.Next() {
+	// 	var each = User{}
+	// 	var err = rows.Scan(&each.ID, &each.Username, &each.Password, &each.Name, &each.Email)
+	// 	if err != nil {
+	// 		fmt.Println(err.Error())
+	// 		return
+	// 	}
+
+	// 	result = append(result, each)
+	// }
+
+	// if err = rows.Err(); err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
+
 	file := path.Join("view", "index.html")
-	var templates, err = template.ParseFiles(file)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	var templates, erro = template.ParseFiles(file)
+	if erro != nil {
+		http.Error(w, erro.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	//get data from database
-	db, err := ConnectDB()
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer db.Close()
-
-	rows, err := db.Query("select * from pengguna")
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var result []User
-
-	for rows.Next() {
-		var each = User{}
-		var err = rows.Scan(&each.ID, &each.Username, &each.Password, &each.Name, &each.Email)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		result = append(result, each)
-	}
-
-	err = templates.Execute(w, result)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	erro = templates.Execute(w, nil)
+	if erro != nil {
+		http.Error(w, erro.Error(), http.StatusInternalServerError)
 	}
 }
 
