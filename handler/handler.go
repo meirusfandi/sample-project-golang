@@ -37,14 +37,14 @@ func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 	db, err := ConnectDB()
 
 	if err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Println(err.Error())
 		return
 	}
 	defer db.Close()
 
 	rows, err := db.Query("select * from pengguna")
 	if err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Println(err.Error())
 		return
 	}
 	defer rows.Close()
@@ -55,7 +55,7 @@ func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 		var each = User{}
 		var err = rows.Scan(&each.ID, &each.Username, &each.Password, &each.Name, &each.Email)
 		if err != nil {
-			fmt.Errorf(err.Error())
+			fmt.Println(err.Error())
 			return
 		}
 
