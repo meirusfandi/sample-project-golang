@@ -10,7 +10,7 @@
     <h2>Welcome to Index Page</h2><br>
     <a href="/index/add"><button>Add Data</button></a>
     <hr>
-    <table>
+    <table border="1">
         <thead>
             <th>No. </th>
             <th>Username</th>
@@ -20,12 +20,12 @@
         </thead>
 
         <tbody>
-            {{ range $i, $data := .result }}
+            {{ range . }}
                 <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{ $data }}</td>
-                    <td>{{ $data }}</td>
-                    <td>{{ $data }}</td>
+                    <td>{{ .ID }}</td>
+                    <td>{{ .Username }}</td>
+                    <td>{{ .Email }}</td>
+                    <td>{{ .Name }}</td>
                     <td>View</td>
                     <td>Edit</td>
                     <td>Delete</td>
