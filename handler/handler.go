@@ -8,41 +8,6 @@ import (
 )
 
 func IndexUserPage(w http.ResponseWriter, r *http.Request) {
-
-	// //get data from database
-	// db, err := ConnectDB()
-
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
-	// }
-	// defer db.Close()
-
-	// rows, err := db.Query("select * from pengguna")
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
-	// }
-	// defer rows.Close()
-
-	// var result []User
-
-	// for rows.Next() {
-	// 	var each = User{}
-	// 	var err = rows.Scan(&each.ID, &each.Username, &each.Password, &each.Name, &each.Email)
-	// 	if err != nil {
-	// 		fmt.Println(err.Error())
-	// 		return
-	// 	}
-
-	// 	result = append(result, each)
-	// }
-
-	// if err = rows.Err(); err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
-	// }
-
 	file := path.Join("view", "index.html")
 	var templates, erro = template.ParseFiles(file)
 	if erro != nil {
