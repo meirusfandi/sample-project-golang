@@ -6,6 +6,8 @@ import (
 	"html/template"
 	"net/http"
 	"path"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type User struct {

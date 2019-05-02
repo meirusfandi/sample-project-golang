@@ -16,18 +16,21 @@
             <th>Username</th>
             <th>Email</th>
             <th>Fullname</th>
-            <th colspan="2">Action</th>
+            <th colspan="3">Action</th>
         </thead>
 
         <tbody>
+            {{ range $i, $data := .result }}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $i }}</td>
+                    <td>{{ $data }}</td>
+                    <td>{{ $data }}</td>
+                    <td>{{ $data }}</td>
+                    <td>View</td>
                     <td>Edit</td>
                     <td>Delete</td>
                 </tr>
+            {{ end }}
         </tbody>
     </table>
 </body>
