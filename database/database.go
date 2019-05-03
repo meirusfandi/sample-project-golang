@@ -104,8 +104,14 @@ func UpdateUser(user User) {
 	defer rows.Close()
 }
 
-func DeleteUser() {
+func DeleteUser(id int) {
+	db := ConnectDB()
+	defer db.Close()
+	del, err := db.Prepare("DELETE FROM pengguna WHERE id=?")
+	checkErr(err)
 
+	del.Exec(id)
+	defer del.Close()
 }
 
 func checkErr(err error) {

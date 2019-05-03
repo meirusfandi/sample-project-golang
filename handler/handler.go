@@ -32,18 +32,14 @@ func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 
 	//replacing data to template index
 	err = templates.ExecuteTemplate(w, "index.html", result)
-	if err != nil {
-		fmt.Fprintln(w, "Error renderin page"+err.Error())
-	}
+	checkErr(err)
 }
 
 func IndexOneUserPage(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	idx, err := strconv.Atoi(id)
-	if err != nil {
-		panic(err.Error())
-	}
+	checkErr(err)
 	var result = database.GetUser(idx)
 	err = templates.ExecuteTemplate(w, "user.html", result)
 	if err != nil {
@@ -64,9 +60,8 @@ func UpdateUserPage(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	idx, err := strconv.Atoi(id)
-	if err != nil {
-		panic(err.Error())
-	}
+	checkErr(err)
+
 	var result = database.GetUser(idx)
 
 	err = templates.ExecuteTemplate(w, "update.html", result)
@@ -76,7 +71,15 @@ func UpdateUserPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUserPage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to delete page")
+
+	id := r.URL.Query().Get("id")
+
+	idx, err := strconv.Atoi(id)
+	checkErr(err)
+
+	database.DeleteUser(idx)
+
+	http.Redirect(w, r, "/index", 301)
 }
 
 func ActionAddUser(w http.ResponseWriter, r *http.Request) {
