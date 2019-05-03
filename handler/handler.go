@@ -100,5 +100,26 @@ func ActionAddUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func ActionUpdateUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		var id = r.FormValue("id")
+		var pass = r.FormValue("password")
+		var email = r.FormValue("email")
+		var name = r.FormValue("fullname")
 
+		var user = database.User{}
+
+		var idx, err = strconv.Atoi(id)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		user.Id = idx
+		user.Fullname = name
+		user.Email = email
+		user.Password = pass
+
+		database.UpdateUser(user)
+	}
+
+	http.Redirect(w, r, "/index", 301)
 }

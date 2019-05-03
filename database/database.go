@@ -94,7 +94,14 @@ func AddUser(user User) {
 }
 
 func UpdateUser(user User) {
-
+	db := ConnectDB()
+	defer db.Close()
+	rows, err := db.Prepare("UPDATE pengguna SET password=?, email=?, fullname=? WHERE id=?")
+	if err != nil {
+		panic(err.Error())
+	}
+	rows.Exec(user.Password, user.Email, user.Fullname, user.Id)
+	defer rows.Close()
 }
 
 func DeleteUser() {
