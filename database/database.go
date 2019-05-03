@@ -3,15 +3,16 @@ package database
 import (
 	"database/sql"
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type User struct {
-	id       int    `json:"id"`
-	username string `json:"username"`
-	password string `json:"password"`
-	email    string `json:"email"`
-	fullname string `json:"fullname"`
+	Id       int    `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Fullname string `json:"fullname"`
 }
 
 func ConnectDB() (db *sql.DB) {
@@ -26,16 +27,17 @@ func ConnectDB() (db *sql.DB) {
 func GetAllUser() []User {
 	//get data from database
 	db := ConnectDB()
-	data, err := db.Query("select * from pengguna ORDER BY id DESC")
+	data, err := db.Query("select * from pengguna")
 	if err != nil {
 		checkErr(err)
 	}
+	defer db.Close()
 
-	var result []User
+	var result = []User{}
 
 	for data.Next() {
 		var each = User{}
-		var err = data.Scan(&each.id, &each.username, &each.password, &each.email, &each.fullname)
+		var err = data.Scan(&each.Id, &each.Username, &each.Password, &each.Email, &each.Fullname)
 		if err != nil {
 			fmt.Println(err.Error())
 			checkErr(err)
@@ -48,16 +50,28 @@ func GetAllUser() []User {
 		fmt.Println(err.Error())
 		checkErr(err)
 	}
-
+	defer data.Close()
 	return result
+}
+
+// func GetUser() User{
+
+// }
+
+func AddUser() {
+
+}
+
+func UpdateUser() {
+
+}
+
+func DeleteUser() {
+
 }
 
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func AddUser() {
-
 }

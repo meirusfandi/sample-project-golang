@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	// "../sampleproject/database"
 	"../sampleproject/handler"
 )
 
 func main() {
-	// database.GetAllUser()
 
 	//handler to page
 	http.HandleFunc("/index", handler.IndexUserPage)

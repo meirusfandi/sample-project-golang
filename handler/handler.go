@@ -8,7 +8,6 @@ import (
 	"../database"
 )
 
-// var templates = template.Must(template.ParseGlob("view/*"))
 var templates *template.Template
 var err error
 
@@ -22,7 +21,6 @@ func checkErr(err error) {
 func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 
 	//get data from database
-	// var result []database.User
 	var result = database.GetAllUser()
 	templates, err = templates.ParseGlob("view/*.html")
 	checkErr(err)
@@ -32,7 +30,10 @@ func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//replacing data to template index
-	templates.ExecuteTemplate(w, "index.html", result)
+	err = templates.ExecuteTemplate(w, "index.html", result)
+	if err != nil {
+		fmt.Fprintln(w, "Error renderin page"+err.Error())
+	}
 }
 
 func IndexOneUserPage(w http.ResponseWriter, r *http.Request) {
