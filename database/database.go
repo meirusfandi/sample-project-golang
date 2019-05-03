@@ -3,7 +3,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -42,11 +41,6 @@ func GetAllUser() []User {
 			checkErr(err)
 		}
 
-		fmt.Println("username : " + each.username)
-		fmt.Println("password : " + each.password)
-		fmt.Println("name : " + each.fullname)
-		fmt.Println("email : " + each.email)
-
 		result = append(result, each)
 	}
 
@@ -62,4 +56,8 @@ func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func AddUser() {
+
 }
