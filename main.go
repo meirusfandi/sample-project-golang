@@ -15,6 +15,8 @@ func main() {
 	http.HandleFunc("/index/add", handler.AddUserPage)
 	http.HandleFunc("/index/update", handler.UpdateUserPage)
 	http.HandleFunc("/index/delete", handler.DeleteUserPage)
+	http.HandleFunc("/user/add", handler.ActionAddUser)
+	http.HandleFunc("/user/update", handler.ActionUpdateUser)
 
 	fmt.Println("server started on localhost:8080")
 	http.ListenAndServe(":8080", nil)

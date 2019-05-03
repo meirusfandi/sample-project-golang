@@ -12,7 +12,7 @@
     <hr>
     <table border="1">
         <thead>
-            <th>No. </th>
+            <th>ID</th>
             <th>Username</th>
             <th>Email</th>
             <th>Fullname</th>
@@ -26,9 +26,9 @@
                     <td>{{ .Username }}</td>
                     <td>{{ .Email }}</td>
                     <td>{{ .Fullname }}</td>
-                    <td>View</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="/index/user?id={{ .Id }}">View</a></td>
+                    <td><a href="/index/update?id={{ .Id }}">Edit</a></td>
+                    <td><a href="/index/delete?id={{ .Id }}">Delete</a></td>
                 </tr>
             {{ end }}
         </tbody>

@@ -8,5 +8,11 @@
 </head>
 <body>
     <h2>Welcome to User Page</h2>
+    <h3>Registered Id = {{ .Id }}</h3>
+    <p>Username : {{ .Username }}</p><br>
+    <p>Fullname : {{ .Fullname }}</p><br>
+    <p>Email : {{ .Email }}</p><br>
+    <a href="/index/update?id={{ .Id }}">Edit</a>
+    <a href="/index">Back</a>
 </body>
 </html>

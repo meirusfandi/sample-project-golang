@@ -8,5 +8,12 @@
 </head>
 <body>
     <h2>Welcome to Update Page</h2>
+    <form action="/user/update" method="POST">
+        <input type="text" name="username" value="{{ .Username }}" disabled><br>
+        <input type="password" name="password" value="{{ .Password }}"><br>
+        <input type="text" name="fullname" value="{{ .Fullname }}"><br>
+        <input type="email" name="email" value="{{ .Email }}"><br>
+        <input type="submit" value="Save"> | <a href="/index"><input type="button" value="Cancel"></a>
+    </form>
 </body>
 </html>

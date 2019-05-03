@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"../database"
 )
@@ -37,8 +38,14 @@ func IndexUserPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexOneUserPage(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
 
-	err = templates.ExecuteTemplate(w, "user.html", nil)
+	idx, err := strconv.Atoi(id)
+	if err != nil {
+		panic(err.Error())
+	}
+	var result = database.GetUser(idx)
+	err = templates.ExecuteTemplate(w, "user.html", result)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -54,7 +61,15 @@ func AddUserPage(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUserPage(w http.ResponseWriter, r *http.Request) {
 
-	err = templates.ExecuteTemplate(w, "update.html", nil)
+	id := r.URL.Query().Get("id")
+
+	idx, err := strconv.Atoi(id)
+	if err != nil {
+		panic(err.Error())
+	}
+	var result = database.GetUser(idx)
+
+	err = templates.ExecuteTemplate(w, "update.html", result)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -62,4 +77,28 @@ func UpdateUserPage(w http.ResponseWriter, r *http.Request) {
 
 func DeleteUserPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to delete page")
+}
+
+func ActionAddUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		var uname = r.FormValue("username")
+		var pass = r.FormValue("password")
+		var email = r.FormValue("email")
+		var name = r.FormValue("fullname")
+
+		var user = database.User{}
+
+		user.Username = uname
+		user.Fullname = name
+		user.Email = email
+		user.Password = pass
+
+		database.AddUser(user)
+	}
+
+	http.Redirect(w, r, "/index", 301)
+}
+
+func ActionUpdateUser(w http.ResponseWriter, r *http.Request) {
+
 }

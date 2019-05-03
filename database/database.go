@@ -54,15 +54,46 @@ func GetAllUser() []User {
 	return result
 }
 
-// func GetUser() User{
+func GetUser(idx int) User {
+	db := ConnectDB()
+	data, err := db.Query("select * from pengguna where id=?", idx)
+	if err != nil {
+		panic(err.Error())
+	}
 
-// }
+	result := User{}
+	for data.Next() {
+		var id int
+		var uname string
+		var fullname string
+		var pass string
+		var email string
+		err = data.Scan(&id, &uname, &pass, &email, &fullname)
+		if err != nil {
+			panic(err.Error())
+		}
+		result.Id = id
+		result.Fullname = fullname
+		result.Email = email
+		result.Username = uname
+		result.Password = pass
+	}
 
-func AddUser() {
-
+	return result
 }
 
-func UpdateUser() {
+func AddUser(user User) {
+	db := ConnectDB()
+	defer db.Close()
+	rows, err := db.Prepare("INSERT INTO pengguna(id, username, password, email, fullname) VALUES (?, ?, ?, ?, ?)")
+	if err != nil {
+		panic(err.Error())
+	}
+	rows.Exec(nil, user.Username, user.Password, user.Email, user.Fullname)
+	defer rows.Close()
+}
+
+func UpdateUser(user User) {
 
 }
 
