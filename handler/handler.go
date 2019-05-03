@@ -9,23 +9,17 @@ import (
 	"../database"
 )
 
+var templates = template.Must(template.ParseGlob("view/*"))
+
 //index for get all user on one page
 func IndexUserPage(w http.ResponseWriter, r *http.Request) {
+
 	//get data from database
 	var result = database.GetAllUser()
 
-	file := path.Join("view", "index.html")
-	var templates, erro = template.ParseFiles(file)
+	//replacing data to template index
+	templates.ExecuteTemplate(w, "index", result)
 
-	if erro != nil {
-		http.Error(w, erro.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	erro = templates.Execute(w, result)
-	if erro != nil {
-		http.Error(w, erro.Error(), http.StatusInternalServerError)
-	}
 }
 
 func IndexOneUserPage(w http.ResponseWriter, r *http.Request) {

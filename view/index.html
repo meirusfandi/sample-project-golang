@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Index Page</title>
-</head>
-<body>
+{{ define "index" }}
+    {{ template "header" }}
     <h2>Welcome to Index Page</h2><br>
     <a href="/index/add"><button>Add Data</button></a>
     <hr>
@@ -22,10 +15,10 @@
         <tbody>
             {{ range . }}
                 <tr>
-                    <td>{{ .ID }}</td>
-                    <td>{{ .Username }}</td>
-                    <td>{{ .Email }}</td>
-                    <td>{{ .Name }}</td>
+                    <td>{{ .id }}</td>
+                    <td>{{ .username }}</td>
+                    <td>{{ .email }}</td>
+                    <td>{{ .name }}</td>
                     <td>View</td>
                     <td>Edit</td>
                     <td>Delete</td>
@@ -33,5 +26,5 @@
             {{ end }}
         </tbody>
     </table>
-</body>
-</html>
+    {{ template "footer" }}
+{{ end }}

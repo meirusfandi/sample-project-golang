@@ -8,23 +8,17 @@ import (
 )
 
 type User struct {
-	// id       int    `json:"id"`
-	// username string `json:"username"`
-	// password string `json:"password"`
-	// email    string `json:"email"`
-	// name     string `json:"name"`
-
-	id       int
-	username string
-	password string
-	email    string
-	name     string
+	id       int    `json:"id"`
+	username string `json:"username"`
+	password string `json:"password"`
+	email    string `json:"email"`
+	fullname string `json:"fullname"`
 }
 
-func ConnectDB() *sql.DB {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:8080)/golang")
+func ConnectDB() (db *sql.DB) {
+	db, err := sql.Open("mysql", "root:@/golang")
 	if err != nil {
-		return nil
+		panic(err.Error())
 	}
 
 	return db
@@ -33,24 +27,25 @@ func ConnectDB() *sql.DB {
 func GetAllUser() []User {
 	//get data from database
 	db := ConnectDB()
-	fmt.Println("connecting to database has been successfully")
-
-	data, err := db.Query("select * from pengguna")
+	data, err := db.Query("select * from pengguna ORDER BY id DESC")
 	if err != nil {
-		fmt.Println(err.Error())
 		checkErr(err)
 	}
-	fmt.Println("get data from database has been successfully")
 
 	var result []User
 
 	for data.Next() {
 		var each = User{}
-		var err = data.Scan(&each.id, &each.username, &each.password, &each.name, &each.email)
+		var err = data.Scan(&each.id, &each.username, &each.password, &each.email, &each.fullname)
 		if err != nil {
 			fmt.Println(err.Error())
 			checkErr(err)
 		}
+
+		fmt.Println("username : " + each.username)
+		fmt.Println("password : " + each.password)
+		fmt.Println("name : " + each.fullname)
+		fmt.Println("email : " + each.email)
 
 		result = append(result, each)
 	}
@@ -59,8 +54,6 @@ func GetAllUser() []User {
 		fmt.Println(err.Error())
 		checkErr(err)
 	}
-
-	fmt.Println(result)
 
 	return result
 }
