@@ -84,19 +84,25 @@ func DeleteUserPage(w http.ResponseWriter, r *http.Request) {
 
 func ActionAddUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		var uname = r.FormValue("username")
-		var pass = r.FormValue("password")
-		var email = r.FormValue("email")
-		var name = r.FormValue("fullname")
+		file, xhandler, _ := r.FormFile("file")
+		if xhandler.Filename == "" {
 
-		var user = database.User{}
+			defer file.Close()
+		} else {
+			var uname = r.FormValue("username")
+			var pass = r.FormValue("password")
+			var email = r.FormValue("email")
+			var name = r.FormValue("fullname")
 
-		user.Username = uname
-		user.Fullname = name
-		user.Email = email
-		user.Password = pass
+			var user = database.User{}
 
-		database.AddUser(user)
+			user.Username = uname
+			user.Fullname = name
+			user.Email = email
+			user.Password = pass
+
+			database.AddUser(user)
+		}
 	}
 
 	http.Redirect(w, r, "/index", 301)
